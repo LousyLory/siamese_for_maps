@@ -1,0 +1,16 @@
+*.npy
+*.tfrecords
+code_siamese/
+fonts_new/
+left_images/
+map_textures/
+right_images/
+small_sample_test/
+test_left_images/
+test_right_images/
+tmp/
+train/
+trained_models/
+val_left_images/
+val_right_images/
+word_image_data_bg/

@@ -1,0 +1,5 @@
+../../maps_project/maps/D0090-5242001.tiff
+../../maps_project/maps/D0117-5755018.tiff
+../../maps_project/maps/D0117-5755024.tiff
+../../maps_project/maps/D0117-5755025.tiff
+../../maps_project/maps/D0117-5755033.tiff
