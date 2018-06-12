@@ -138,6 +138,7 @@ class siamese_network:
         losses = tf.add(pos, neg, name="losses")
         loss = tf.reduce_mean(losses, name="loss")
         return loss
+    
 
     def get_label(self):
         margin = 10.0
