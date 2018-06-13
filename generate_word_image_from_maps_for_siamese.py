@@ -187,9 +187,9 @@ def get_color_text_image(word):
                 break
         bg_image = get_random_crop(img.shape)
         #result = merge_background_text(img, bg_image)
-	print img.shape
-	plt.imshow(img)
-	plt.show()
+	#print img.shape
+	#plt.imshow(img)
+	#plt.show()
 	result = img
         padded_result = pad_image(result)
 	#padded_result = cv2.resize(result, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
@@ -284,7 +284,7 @@ def generate_right_words(list_of_words, save_dir):
     save in a directory
     '''
     filenames = []
-    count = 0
+    count = 8037
     for word in list_of_words:
         print 'word %d' %count
         img,flag = get_color_text_image(word)
@@ -321,11 +321,11 @@ if not os.path.isdir(word_save_dir):
 if not os.path.isdir(txt_save_dir):
     os.mkdir(txt_save_dir)    
 
-list_of_words, y, image_files = generate_left_words(_file_names, path_to_images, path_to_anots, img_save_dir)
+#list_of_words, y, image_files = generate_left_words(_file_names, path_to_images, path_to_anots, img_save_dir)
 
-#list_of_words = ['Marks']
+list_of_words = ['Arcy']
 word_files = generate_right_words(list_of_words, word_save_dir)
-
+'''
 # save text files
 print 'saving labels'
 f = open(txt_save_dir+'y_labels.txt', 'w')
@@ -344,4 +344,4 @@ f = open(txt_save_dir+'word_files.txt', 'w')
 for item in word_files:
   f.write("%s\n" % item)
 f.close()
-
+'''

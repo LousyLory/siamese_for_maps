@@ -187,9 +187,9 @@ def get_color_text_image(word):
                 break
         bg_image = get_random_crop(img.shape)
         #result = merge_background_text(img, bg_image)
-	print img.shape
-	plt.imshow(img)
-	plt.show()
+	#print img.shape
+	#plt.imshow(img)
+	#plt.show()
 	result = img
         padded_result = pad_image(result)
 	#padded_result = cv2.resize(result, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
