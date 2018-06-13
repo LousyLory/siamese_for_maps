@@ -14,3 +14,5 @@ trained_models/
 val_left_images/
 val_right_images/
 word_image_data_bg/
+nobg*
+unpadded*

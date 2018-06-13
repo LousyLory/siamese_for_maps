@@ -162,7 +162,7 @@ def merge_background_text(img, bg_image):
                     bg_image[i, j, 2] = b
     kernel = np.ones((3,3),np.float32)/9
     bg_image = cv2.filter2D(bg_image,-1,kernel)
-    #     bg_image = cv2.resize(bg_image, (227,227))
+    #bg_image = cv2.resize(bg_image, (227,227))
     return bg_image
 
 def pad_image(img):
@@ -186,8 +186,13 @@ def get_color_text_image(word):
                 img = temp_img
                 break
         bg_image = get_random_crop(img.shape)
-        result = merge_background_text(img, bg_image)
+        #result = merge_background_text(img, bg_image)
+	print img.shape
+	plt.imshow(img)
+	plt.show()
+	result = img
         padded_result = pad_image(result)
+	#padded_result = cv2.resize(result, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
     except Exception as e:
         print e
         return (None,False)
@@ -255,6 +260,7 @@ def generate_left_words(list_of_files, path_to_images, path_to_anots, save_dir):
 
         # get padded image
         final_img = pad_image(extracted_crop)
+	#final_img = cv2.resize(extracted_crop, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
 
         true_label = np.random.randint(0,1)
         if true_label == 0:
@@ -302,9 +308,9 @@ for i in range(0, len(A)):
 path_to_images = _dir+'/'
 path_to_anots = '../../maps_project/annotations/current/'
 
-img_save_dir = './left_images/'
-word_save_dir = './right_images/'
-txt_save_dir = './txt_files/'
+img_save_dir = './nobg_left_images/'
+word_save_dir = './nobg_right_images/'
+txt_save_dir = './nobg_txt_files/'
 
 if not os.path.isdir(img_save_dir):
     os.mkdir(img_save_dir)
@@ -317,6 +323,7 @@ if not os.path.isdir(txt_save_dir):
 
 list_of_words, y, image_files = generate_left_words(_file_names, path_to_images, path_to_anots, img_save_dir)
 
+#list_of_words = ['Marks']
 word_files = generate_right_words(list_of_words, word_save_dir)
 
 # save text files
@@ -337,3 +344,4 @@ f = open(txt_save_dir+'word_files.txt', 'w')
 for item in word_files:
   f.write("%s\n" % item)
 f.close()
+
