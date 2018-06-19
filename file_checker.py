@@ -1,10 +1,10 @@
 import cv2
 
-f = open('./val_txt_files/word_files.txt')
+f = open('./unpadded_val_txt_files/word_files.txt')
 A = f.readlines()
 f.close()
 
-f = open('./val_txt_files/y_labels.txt')
+f = open('./unpadded_val_txt_files/y_labels.txt')
 B = f.readlines()
 f.close()
 

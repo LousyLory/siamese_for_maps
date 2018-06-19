@@ -288,21 +288,29 @@ def generate_right_words(list_of_words, save_dir):
         count = count+1
     return filenames
 
-def get_color_text_image_true(word, fonts_list, background_images):
+def get_color_text_image_true(word, fonts_list, background_images, padded=True, bg=True):
     '''
     Generate color image from a background
     '''
+    print bg
     img = np.array(get_word_image(word, fonts_list))
     temp_img = np.copy(img)
     temp_img = transform_image(temp_img)
     if temp_img.shape[0]!=0 and temp_img.shape[1]!=0:
         img = temp_img
     bg_image = get_random_crop(img.shape, background_images)
-    result = merge_background_text(img, bg_image)
-    padded_result = pad_image(result)
+    if bg:
+        result = merge_background_text(img, bg_image)
+    else:
+        result = np.repeat(img[:, :, np.newaxis], 3, axis=2)
+    if padded:
+        padded_result = pad_image(result)
+    else:
+        padded_result = cv2.resize(result, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
     return padded_result
 
-def generate_word_images_from_list(list_of_words, fonts_list, background_images):
+
+def generate_word_images_from_list(list_of_words, fonts_list, background_images, padded=True, bg=True):
     '''
     Generates word images from associated annotations
     save in a directory
@@ -311,17 +319,18 @@ def generate_word_images_from_list(list_of_words, fonts_list, background_images)
     count = 0
     for word in list_of_words:
         print 'word '+word
-        img = get_color_text_image_true(word, fonts_list, background_images)
+        img = get_color_text_image_true(word, fonts_list, background_images, padded, bg)
         images.append(img)
     return images
 
-def generate_left_words_from_image(list_of_files, path_to_images, path_to_anots):
+def generate_left_words_from_image(list_of_files, path_to_images, path_to_anots, padded=True):
     '''
     This function just copies the rectangular words
     from the map images
     save in a directory
     '''
     # A is a dictionary of dictionaries
+    print padded
     A = {}
     for i in range(len(list_of_files)):
         _dict = np.load(path_to_anots+str(list_of_files[i])+'.npy').item()
@@ -376,7 +385,10 @@ def generate_left_words_from_image(list_of_files, path_to_images, path_to_anots)
         extracted_crop = rotateImage(I_cache, _angle, fulcrum, height, width)
 
         # get padded image
-        final_img = pad_image(extracted_crop)
+        if padded:
+            final_img = pad_image(extracted_crop)
+        else:
+            final_img = cv2.resize(extracted_crop, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
 
         true_label = 1#np.random.randint(0,1)
         if true_label == 0:
@@ -397,3 +409,4 @@ def generate_left_words_from_image(list_of_files, path_to_images, path_to_anots)
         #cv2.imwrite(save_dir+str(count)+'.png', final_img)
 
     return list_of_words, y, image_files
+

@@ -186,13 +186,10 @@ def get_color_text_image(word):
                 img = temp_img
                 break
         bg_image = get_random_crop(img.shape)
-        #result = merge_background_text(img, bg_image)
-	#print img.shape
-	#plt.imshow(img)
-	#plt.show()
-	result = img
-        padded_result = pad_image(result)
-	#padded_result = cv2.resize(result, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
+        result = merge_background_text(img, bg_image)
+	#result = img
+        #padded_result = pad_image(result)
+	padded_result = cv2.resize(result, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
     except Exception as e:
         print e
         return (None,False)
@@ -259,10 +256,10 @@ def generate_left_words(list_of_files, path_to_images, path_to_anots, save_dir):
         extracted_crop = rotateImage(I_cache, _angle, fulcrum, height, width)
 
         # get padded image
-        final_img = pad_image(extracted_crop)
-	#final_img = cv2.resize(extracted_crop, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
+        #final_img = pad_image(extracted_crop)
+	final_img = cv2.resize(extracted_crop, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
 
-        true_label = np.random.randint(0,1)
+        true_label = np.random.randint(0,2)
         if true_label == 0:
             anots_ID = np.random.choice(dictionary_of_indices[file_ID])
             label = A[file_ID][anots_ID]['name']
@@ -284,7 +281,7 @@ def generate_right_words(list_of_words, save_dir):
     save in a directory
     '''
     filenames = []
-    count = 0
+    count = 4487
     for word in list_of_words:
         print 'word %d' %count
         img,flag = get_color_text_image(word)
@@ -295,7 +292,7 @@ def generate_right_words(list_of_words, save_dir):
     return filenames
 
 
-filenames_file = 'train_files.txt'
+filenames_file = 'val_files.txt'
 f = open(filenames_file, 'r')
 A = f.readlines()
 f.close()
@@ -308,9 +305,9 @@ for i in range(0, len(A)):
 path_to_images = _dir+'/'
 path_to_anots = '../../maps_project/annotations/current/'
 
-img_save_dir = './nobg_val_left_images/'
-word_save_dir = './nobg_val_right_images/'
-txt_save_dir = './nobg_val_txt_files/'
+img_save_dir = './unpadded_val_left_images/'
+word_save_dir = './unpadded_val_right_images/'
+txt_save_dir = './unpadded_val_txt_files/'
 
 if not os.path.isdir(img_save_dir):
     os.mkdir(img_save_dir)
@@ -321,11 +318,11 @@ if not os.path.isdir(word_save_dir):
 if not os.path.isdir(txt_save_dir):
     os.mkdir(txt_save_dir)    
 
-list_of_words, y, image_files = generate_left_words(_file_names, path_to_images, path_to_anots, img_save_dir)
+#list_of_words, y, image_files = generate_left_words(_file_names, path_to_images, path_to_anots, img_save_dir)
 
-#list_of_words = ['Marks']
+list_of_words = ['55']
 word_files = generate_right_words(list_of_words, word_save_dir)
-
+'''
 # save text files
 print 'saving labels'
 f = open(txt_save_dir+'y_labels.txt', 'w')
@@ -344,4 +341,4 @@ f = open(txt_save_dir+'word_files.txt', 'w')
 for item in word_files:
   f.write("%s\n" % item)
 f.close()
-
+'''
