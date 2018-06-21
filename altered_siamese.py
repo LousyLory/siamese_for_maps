@@ -108,7 +108,7 @@ class siamese_network:
                             session.run(var.assign(data))
 
     def loss_with_spring(self):
-        margin = 10.0
+        margin = .010
         labels_t = self.y_
         labels_f = tf.subtract(1.0, self.y_, name="1-yi")          # labels_ = !labels;
         eucd2 = tf.pow(tf.subtract(self.o1, self.o2), 2)
@@ -125,7 +125,7 @@ class siamese_network:
         return loss
 
     def loss_with_step(self):
-        margin = 20.0
+        margin = .010
         labels_t = self.y_
         labels_f = tf.subtract(1.0, self.y_, name="1-yi")          # labels_ = !labels;
 	print(tf.reduce_max(self.o1))
@@ -139,7 +139,7 @@ class siamese_network:
         loss = tf.reduce_mean(losses, name="loss")
         return loss
     def get_label(self):
-        margin = 20.0
+        margin = 0.010
         eucd2 = tf.pow(tf.subtract(self.o1, self.o2), 2)
         eucd2 = tf.reduce_sum(eucd2, 1)
         eucd = tf.sqrt(eucd2+1e-6, name="eucd")
