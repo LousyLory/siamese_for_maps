@@ -16,3 +16,8 @@ val_right_images/
 word_image_data_bg/
 nobg*
 unpadded*
+original_images/
+original_words/
+synthetic_word_images/
+list_of_words/
+

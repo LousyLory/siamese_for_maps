@@ -44,10 +44,10 @@ for i in range(1, 6):
 
 
 # file name leads
-f1 = 'sythetic_word_images_nobg_nopad_'
-f2 = 'list_of_words_nobg_nopad_'
-f3 = 'original_words_nopad_'
-f4 = 'original_images_nopad_'
+f1 = 'sythetic_word_images_'
+f2 = 'list_of_words_'
+f3 = 'original_words_'
+f4 = 'original_images_'
 
 for files in list_of_maps:
 	list_of_words = []
@@ -57,13 +57,14 @@ for files in list_of_maps:
 	for i in dict_of_polygons.keys():
 		list_of_words.append(dict_of_polygons[i]['name'])
     
-	sythetic_word_images = generate_word_images_from_list(list_of_words, fonts_list, background_images, padded=False, bg=False)
+	sythetic_word_images = generate_word_images_from_list(list_of_words, fonts_list, background_images, padded=True, bg=True)
 	np.save(f1+files+'.npy', sythetic_word_images)
 	np.save(f2+files+'.npy', list_of_words)
 
 for files in list_of_maps:
-	original_words, _, original_images = generate_left_words_from_image(files, map_dir, anots_dir, padded=False)
-	np.save(f3+files+'.npy', original_words)
-	np.save(f4+files+'.npy', original_images)
+	list_of_files = [files]
+	original_words, _, original_images = generate_left_words_from_image(list_of_files, map_dir, anots_dir, padded=True)
+	np.save(f3+files+'.tiff', original_words)
+	np.save(f4+files+'.tiff', original_images)
 
 
